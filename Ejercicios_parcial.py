@@ -67,7 +67,7 @@ def buscar_x3(d,a):
     else:
         x_3 = (-2*c_)/(b_+np.sqrt(b_**2-4*a_*c_))
     
-    return (a[2],x_3)
+    return x_3
 
 x_3 = buscar_x3(d,a)
 
@@ -95,7 +95,7 @@ def Newton(f,df,xn,itmax=100):
     else:
         return xn
 
-#print(Newton(function,derivate,x_3))
+print(Newton(function,derivate,x_3))
 
 #error>precision
 print(t_x,a)
