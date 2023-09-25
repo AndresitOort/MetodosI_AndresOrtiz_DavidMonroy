@@ -3,6 +3,8 @@ import sympy as sym
 import matplotlib.pyplot as plt
 import math 
 
+_x = sym.symbols('x')
+
 def GetNewton(f,df,xn,itmax=10000,precision=1e-12):
     
     error = 1.
@@ -87,15 +89,23 @@ def GetWeigthsHer(n,x):
     
     for i in roots:
         
-        w = (2**(n-1)*math.factorial(n)*np.sqrt(n))/((n**2)*(l_h1(i)**2))
-        
-        if w not in weigths:
+        w = (2**(n-1)*math.factorial(n)*np.sqrt(np.pi))/((n**2)*(l_h1(i)**2))
             
-            weigths = np.append(weigths,w)
+        weigths = np.append(weigths,w)
     
     return weigths
 
-print('polinomios de Hermite')
-print(GetHermite(2,_x))
-print(GetAllRootsGHer(2))
-print(GetWeigthsHer(2,_x))
+def NpolinomiosHermite(n):
+    
+    if n == 0:
+        print('El polinomio 0 no tiene raices')
+    else:
+        for i in range(1,n+1):
+            print('polinomion n° '+str(i))
+            print(GetHermite(i,_x))
+            print(GetAllRootsGHer(i))
+            print(GetWeigthsHer(i,_x))
+
+nh = 20
+
+NpolinomiosHermite(nh)
