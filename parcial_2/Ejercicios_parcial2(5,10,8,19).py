@@ -97,10 +97,10 @@ def GetWeigthsHer(n,x):
 
 def NpolinomiosHermite(n):
     
-    if n == 0:
-        print('El polinomio 0 no tiene raices')
-    else:
-        for i in range(1,n+1):
+    for i in range(n+1):
+        if n == 0:
+            print('El polinomio 0 no tiene raices')
+        else:
             print('polinomion n° '+str(i))
             print(GetHermite(i,_x))
             print(GetAllRootsGHer(i))
@@ -108,4 +108,26 @@ def NpolinomiosHermite(n):
 
 nh = 20
 
-NpolinomiosHermite(nh)
+#NpolinomiosHermite(nh)
+
+#La funcion se define por medio de la sustitucion hecha en el Imagen_1
+
+def function(x):
+    return x**4
+
+def IntegralHermite(f,n):
+    
+    res = 0
+    
+    r = GetAllRootsGHer(n)
+    w = GetWeigthsHer(n,_x)
+    
+    for i in range(len(r)):
+        
+        res += w[i]*f(r[i])
+    
+    return res*(2/np.sqrt(np.pi))
+
+
+
+print(IntegralHermite(function,20))
