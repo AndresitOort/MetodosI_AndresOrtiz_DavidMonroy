@@ -3,6 +3,8 @@ import sympy as sym
 import matplotlib.pyplot as plt
 import math 
 
+#Ejercicio numero 18
+
 _x = sym.symbols('x')
 
 def GetNewton(f,df,xn,itmax=10000,precision=1e-12):
@@ -128,6 +130,64 @@ def IntegralHermite(f,n):
     
     return res*(2/np.sqrt(np.pi))
 
+#print(IntegralHermite(function,20))
 
+#Ejercicio numero 5
 
-print(IntegralHermite(function,20))
+def GetLaguerre(n,x):
+    if n==0:
+        poly = sym.Number(1)
+    elif n==1:
+        poly = - x + 1
+    else:
+        poly = ((2*(n-1)+1-x)*GetLaguerre(n-1,x)-((n-1)*GetLaguerre(n-2,x)))/(n)
+   
+    return sym.expand(poly,x)
+
+def DiffLaguerre(n,x):
+    pn = GetLaguerre(n,x)
+    return sym.diff(pn,x,1)
+
+def GetAllRootsGLag(n):
+
+    j = n+((n-1)*np.sqrt(n))
+    xn = np.linspace(0,j,100)
+    
+    Legendre = np.array([])
+    DLegendre = np.array([])
+    
+    for i in range(n+1):
+        Legendre =  np.append(Legendre,GetLaguerre(i,_x))
+        DLegendre = np.append(DLegendre,DiffLaguerre(i,_x))
+    
+    poly = sym.lambdify([_x],Legendre[n],'numpy')
+    Dpoly = sym.lambdify([_x],DLegendre[n],'numpy')
+    Roots = GetRoots(poly,Dpoly,xn)
+
+    if len(Roots) != n:
+        ValueError('El número de raíces debe ser igual al n del polinomio.')
+    
+    return Roots
+
+def GetWeigthsLag(n,x):
+    
+    weigths = np.array([])
+    roots = GetAllRootsGLag(n)
+    L_n1 = sym.lambdify([x],GetLaguerre(n+1,x),'numpy')
+    
+    for i in roots:
+        
+        w = i/(((n+1)**2)*(L_n1(i))**2)
+        
+        if w not in weigths:
+            
+            weigths = np.append(weigths,w)
+            
+    return weigths
+
+nl = 17
+    
+print('polinomios de Laguerre')
+print(GetLaguerre(nl,_x))
+print(GetAllRootsGLag(nl))
+print(GetWeigthsLag(nl,_x))
