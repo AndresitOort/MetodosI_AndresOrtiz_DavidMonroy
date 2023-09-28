@@ -165,17 +165,14 @@ ng = 20
 
 #Ejercicio numero 19
 
-T = np.linspace(0,20,10000)
+T = np.arange(1,20,10e-4)
 
 def function19(x,T,dT):
-    return (np.tanh((np.sqrt(x**2+dT**2)))*(300/(2*T)))/np.sqrt(x**2+dT**2)
+    return (sym.tanh((sym.sqrt(x**2+dT**2)))*(300/(2*T)))/sym.sqrt(x**2+dT**2)
 
-"""def integral(f,T):
+def integral(f,T):
     
     r,w =np.polynomial.legendre.leggauss(50)
     
     for i in T:
-        
-    
-
-integral(function19,25,120)    """
+        poly = function19()
