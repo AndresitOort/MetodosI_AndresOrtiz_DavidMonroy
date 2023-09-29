@@ -35,8 +35,7 @@ def NpolinomiosHermite(n):
         
 nh = 20
 
-#
-# NpolinomiosHermite(nh)
+NpolinomiosHermite(nh)
 
 #La funcion se define por medio de la sustitucion hecha en el Imagen_1
 
@@ -152,8 +151,6 @@ def GetWeigthsLag(n,x):
             
     return weigths
 
-print(GetWeigthsLag(20,_x))
-
 def NpolyLaguerre(n):
     
     for i in range(1,n+1):
@@ -164,7 +161,7 @@ def NpolyLaguerre(n):
 
 ng = 20
 
-#NpolyLaguerre(ng)
+NpolyLaguerre(ng)
 
 #Ejercicio numero 19
 
@@ -188,3 +185,18 @@ def integral(f,T,NOV=0.3,dt=10e-4):
             I = 0
 
 print(integral(function19,T))
+
+# Ejercicio numero 10
+
+_h = sym.symbols('h')
+
+def function10(x,h):
+    return (x)*(x-h)*(x-2*h)*(x-3*h)
+
+def SymIntegrate(f,x,a,b):
+    return sym.integrate(f,(x,a,b))*(1/sym.factorial(4))
+
+print(SymIntegrate(function10(_x,_h),_x,0,3*_h))
+
+#se puede observar que eltermino es el esperado, por ende se demuestra el error
+#asociado a la regla de Simpson 3/8
