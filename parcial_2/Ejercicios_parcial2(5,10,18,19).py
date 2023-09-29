@@ -35,7 +35,8 @@ def NpolinomiosHermite(n):
         
 nh = 20
 
-#NpolinomiosHermite(nh)
+#
+# NpolinomiosHermite(nh)
 
 #La funcion se define por medio de la sustitucion hecha en el Imagen_1
 
@@ -151,6 +152,8 @@ def GetWeigthsLag(n,x):
             
     return weigths
 
+print(GetWeigthsLag(20,_x))
+
 def NpolyLaguerre(n):
     
     for i in range(1,n+1):
@@ -162,3 +165,26 @@ def NpolyLaguerre(n):
 ng = 20
 
 #NpolyLaguerre(ng)
+
+#Ejercicio numero 19
+
+T = np.arange(1,20,10e-4)
+
+def function19(x,T,DT):
+    return sym.tanh((sym.sqrt(x**2+DT**2)*(300/(2*T))))/sym.sqrt(x**2+DT**2)
+
+def integral(f,T,NOV=0.3,dt=10e-4):
+    
+    r,w = np.polynomial.legendre.leggauss(50)
+    
+    I = 0
+    
+    for i in T:
+        for j in range(len(r)):
+            I += (w[j]*f(r[j],i,dt))*(0.5)
+        if np.abs(I-(1/NOV)) < dt:
+            return i
+        else:
+            I = 0
+
+print(integral(function19,T))
