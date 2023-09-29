@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 def funcion(x):
-    return((x**3)/(1-np.e**(-x)))
+    return((x**3)/((np.e**(x))-1))
 
 def GaussLaguerre(f,n):
     
@@ -29,4 +29,4 @@ def GaussLaguerre(f,n):
 
     return I
 
-print(GaussLaguerre(funcion,3))
+print(GaussLaguerre(funcion,10))
