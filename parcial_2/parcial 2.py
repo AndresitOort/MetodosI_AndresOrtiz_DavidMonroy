@@ -74,7 +74,7 @@ def DiffLaguerre(n,x):
     pn = GetLaguerre(n,x)
     return sym.diff(pn,x,1)
 
-def GetNewton(f,df,xn,itmax=10000,precision=1e-14):
+def GetNewton(f,df,xn,itmax=10000,precision=1e-15):
     
     error = 1.
     it = 0
@@ -98,7 +98,7 @@ def GetNewton(f,df,xn,itmax=10000,precision=1e-14):
     else:
         return xn
     
-def GetRoots(f,df,x,tolerancia = 10):
+def GetRoots(f,df,x,tolerancia = 15):
     
     Roots = np.array([])
     
