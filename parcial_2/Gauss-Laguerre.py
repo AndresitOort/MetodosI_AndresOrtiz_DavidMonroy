@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 def funcion(x):
-    return((x**3)/((np.e**(x))-1))
+    return((x**3)/((np.exp(x))-1))
 
 def GaussLaguerre(f,n):
     
@@ -22,11 +22,12 @@ def GaussLaguerre(f,n):
     
     plt.scatter(it,error)
     plt.show()
+    
 
     for i in range(n):
-        Root,Weigh=np.polynomial.laguerre.laggauss(n)
-        I+=Weigh[i]*f(Root[i])
+        R,W=np.polynomial.laguerre.laggauss(n)
+        I+=W[i]*f(R[i])
 
     return I
 
-print(GaussLaguerre(funcion,10))
+print(GaussLaguerre(funcion,15))
