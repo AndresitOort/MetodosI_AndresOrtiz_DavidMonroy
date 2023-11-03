@@ -1,7 +1,7 @@
 import numpy as np
 import sympy as sym
 
-A = np.array([[1.,2.,-1.],[1.,0.,1.],[4.,-4.,5]])
+A = np.array([[-2.,1.,0.],[1.,-2.,1.],[0.,1.,-2]])
 b = np.array([1.,1.,1.])
 
 def norma(v):
@@ -28,6 +28,6 @@ print(eigenvectors(A,b,10))
 
 v,e = eigenvectors(A,b,10)
 
-r = np.dot(A,v)
-print(r)
+w = np.sqrt(np.abs(e))
 
+print(w)

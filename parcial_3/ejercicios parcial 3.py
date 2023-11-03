@@ -2,30 +2,37 @@ import numpy as np
 import sympy as sym
 import matplotlib.pyplot as plt
 
-A1 = np.array([[1.,0.,0.],[5.,1.,0.],[-2.,3.,1.]])
-B1 = np.array([[4.,-2.,1.]])
-
-print(A1,B1)
-def MultiMat(A,B):
+def MultiMatAux(A,B):
     
-    n,m = (B.shape[0],A.shape[1])
+    n,m = (A.shape[0],B.shape[1])
+        
+    D = np.zeros((n,m))
     
-    D = np.zeros((m,n))
-    
-    for i in range(m):
-        for j in range(n):
-            l = sum(A[i]*B[:,j])
+    for i in range(n):
+        for j in range(m):
+            l = sum(A[i,:]*B[:,j])
             D[i,j] = l
-
-    
+            
     return D
 
-print(MultiMat(A1,B1))
-
-
-
-A = np.array([[3.,-1.,-1.],[-1.,3.,1],[2.,1.,4.]])
-c = np.array([1.,3.,7.])
+def MultiMat(A,B):     
+    if len(B.shape) == 1:
+        
+        V = B.reshape(B.shape[0],1)
+        
+        if A.shape[1] != V.shape[0]:
+            return 'No cumplen el requisito de dimensiones'
+        
+        D = MultiMatAux(A,V)
+        
+    else:
+        
+        if A.shape[1] != B.shape[0]:
+            return 'No cumplen el requisito de dimensiones'
+        
+        D = MultiMatAux(A,B)
+    
+    return D
 
 def norma(v):
     return np.sqrt(np.dot(v,v.T))
@@ -59,6 +66,22 @@ def SOR(A,b,w,tol=1e-6,itmax=1000):
         err = norma(b - np.dot(A,x))
         it += 1
     
-    return x
-    
-print(SOR(A,c,1.5))
+    return x    
+
+i = sym.I
+
+MAx = sym.Matrix([[0,1],[1,0]])
+MAy = sym.Matrix([[0,-i],[i,0]])
+MAz = sym.Matrix([[1,0],[0,-1]])
+
+AM = [MAx,MAy,MAz]
+
+def conmutador(A,B):
+    return A*B - B*A
+
+def conmuit():
+    for i in range(3):
+        for j in range(3):
+            if j != i:
+                print((i,j), conmutador(AM[i],AM[j]))
+conmuit()
