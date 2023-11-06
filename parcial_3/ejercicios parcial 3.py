@@ -84,4 +84,30 @@ def conmuit():
         for j in range(3):
             if j != i:
                 print((i,j), conmutador(AM[i],AM[j]))
-conmuit()
+#conmuit()
+
+G0 = sym.Matrix([[1,0,0,0],[0,1,0,0],[0,0,-1,0],[0,0,0,-1]])
+G1 = sym.Matrix([[0,0,0,1],[0,0,1,0],[0,-1,0,0],[-1,0,0,0]])
+G2 = sym.Matrix([[0,0,0,-i],[0,0,i,0],[0,i,0,0],[-i,0,0,0]])
+G3 = sym.Matrix([[0,0,1,0],[0,0,0,-1],[-1,0,0,0],[0,1,0,0]])
+
+AG = [G0,G1,G2,G3]
+
+def anticonmutador(A,B):
+    return A*B + B*A
+
+def anticonit():
+    for i in range(4):
+        for j in range(4):
+            if j != i:
+                print((i,j), anticonmutador(AG[i],AG[j]))
+
+ed = [1,-1,-1,-1]
+
+M = sym.diag(*ed)
+
+I4 = sym.eye(4)
+
+print(2*M*I4)
+
+#anticonit() 
