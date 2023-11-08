@@ -2,6 +2,10 @@ import numpy as np
 import sympy as sym
 import matplotlib.pyplot as plt
 
+#PUNTO NUMERO 4
+
+print("PUNTO NUMERO 4")
+
 A = np.array([[1.,0.,0.],[5.,1.,0.],[-2.,3.,1.]])
 B = np.array([[4.,-2.,1.],[0.,3.,7.],[0.,0.,2.]])
 
@@ -37,10 +41,11 @@ def MultiMat(A,B):
     
     return D
 
-#print(MultiMat(A,B))
+print(MultiMat(A,B))
 
-def norma(v):
-    return np.sqrt(np.dot(v,v.T))
+#PUNTO NUMERO 7
+
+print("PUNTO NUMERO 7")
 
 def SOR(A,b,x0,w,tol=1e-6,itmax=1000):
     
@@ -101,6 +106,9 @@ x0 = np.array([0.,0.,0.])
 
 print(FindMinItSOR(A1,b1,x0))
 
+#PUNTO NUMERO 15
+
+print("PUNTO NUMERO 15")
 
 i = sym.I
 
@@ -119,7 +127,11 @@ def conmuit():
             if j != i:
                 print((i,j), conmutador(AM[i],AM[j]))
 
-#conmuit()
+conmuit()
+
+#PUNTO NUMERO 16
+
+print("PUNTO NUMERO 16")
 
 G0 = sym.Matrix([[1,0,0,0],[0,1,0,0],[0,0,-1,0],[0,0,0,-1]])
 G1 = sym.Matrix([[0,0,0,1],[0,0,1,0],[0,-1,0,0],[-1,0,0,0]])
