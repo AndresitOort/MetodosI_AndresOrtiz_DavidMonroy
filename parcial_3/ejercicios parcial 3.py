@@ -42,7 +42,7 @@ def MultiMat(A,B):
 def norma(v):
     return np.sqrt(np.dot(v,v.T))
 
-def SOR(A,b,x0,w,tol=1e-6,itmax=10000):
+def SOR(A,b,x0,w,tol=1e-6,itmax=1000):
     
     x = x0.copy()
     u = x.copy()
@@ -60,11 +60,11 @@ def SOR(A,b,x0,w,tol=1e-6,itmax=10000):
         sumk2[:] = 0
         
         for i in range(A.shape[0]):
-            if i > 1:
-                for j in range(1,i):
+            if i >= 1:
+                for j in range(0,i):
                     sumk1[i] += A[i,j]*u[j]
                 
-            for j2 in range(i+1,A.shape[1]):
+            for j2 in range(i+1,A.shape[0]):
                 sumk2[i] += A[i,j2]*x[j2]
             
             u[i] = (1-w)*x[i] + (w/A[i,i])*(b[i]-sumk1[i]-sumk2[i])
@@ -75,14 +75,31 @@ def SOR(A,b,x0,w,tol=1e-6,itmax=10000):
         
         it += 1
     
-    return x,it, residuo
+    return x,it
+
+def FindMinItSOR(A,b,x0,N=100):
+    
+    x = np.linspace(0.5,1.5,N)
+    ini = N
+    
+    omega = 0
+    
+    for i in x[1:-1]:
+        
+        v,it = SOR(A,b,x0,i)
+        
+        if it < ini:
+            ini = it
+            omega = i
+    
+    return SOR(A,b,x0,omega),omega
 
 A1 = np.array([[3,-1,-1],[-1.,3.,1.],[2,1,4]])
 b1 = np.array([1.,3.,7.])
 
 x0 = np.array([0.,0.,0.])
 
-print(SOR(A1,b1,x0,1.5))
+print(FindMinItSOR(A1,b1,x0))
 
 i = sym.I
 
