@@ -101,6 +101,7 @@ x0 = np.array([0.,0.,0.])
 
 print(FindMinItSOR(A1,b1,x0))
 
+
 i = sym.I
 
 MAx = sym.Matrix([[0,1],[1,0]])
@@ -117,6 +118,7 @@ def conmuit():
         for j in range(3):
             if j != i:
                 print((i,j), conmutador(AM[i],AM[j]))
+
 #conmuit()
 
 G0 = sym.Matrix([[1,0,0,0],[0,1,0,0],[0,0,-1,0],[0,0,0,-1]])
@@ -127,7 +129,7 @@ G3 = sym.Matrix([[0,0,1,0],[0,0,0,-1],[-1,0,0,0],[0,1,0,0]])
 AG = [G0,G1,G2,G3]
 
 def anticonmutador(A,B):
-    return A*B + B*A
+    return A*B - B*A
 
 def anticonit():
     for i in range(4):
@@ -135,12 +137,4 @@ def anticonit():
             if j != i:
                 print((i,j), anticonmutador(AG[i],AG[j]))
 
-ed = [1,-1,-1,-1]
-
-M = sym.diag(*ed)
-
-I4 = sym.eye(4)
-
-#print(2*M*I4)
-
-#anticonit() 
+anticonit() 
