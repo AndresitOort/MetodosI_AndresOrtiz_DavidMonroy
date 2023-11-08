@@ -2,6 +2,9 @@ import numpy as np
 import sympy as sym
 import matplotlib.pyplot as plt
 
+A = np.array([[1.,0.,0.],[5.,1.,0.],[-2.,3.,1.]])
+B = np.array([[4.,-2.,1.],[0.,3.,7.],[0.,0.,2.]])
+
 def MultiMatAux(A,B):
     
     n,m = (A.shape[0],B.shape[1])
@@ -34,39 +37,52 @@ def MultiMat(A,B):
     
     return D
 
+#print(MultiMat(A,B))
+
 def norma(v):
     return np.sqrt(np.dot(v,v.T))
 
-def SOR(A,b,w,tol=1e-6,itmax=1000):
+def SOR(A,b,x0,w,tol=1e-6,itmax=10000):
     
-    n = b.shape[0]
+    x = x0.copy()
+    u = x.copy()
+    sumk1 = x.copy()
+    sumk2 = x.copy()
     
-    x = np.zeros(n)
+    residuo = np.linalg.norm( np.dot(A,x) - b)
     
-    err = 1
     it = 0
     
-    while it < itmax and err > tol:
+    while it < itmax and residuo > tol:
         
-        xn = x.copy()
+        u[:] = 0
+        sumk1[:] = 0
+        sumk2[:] = 0
         
-        for i in range(n):
+        for i in range(A.shape[0]):
+            if i > 1:
+                for j in range(1,i):
+                    sumk1[i] += A[i,j]*u[j]
+                
+            for j2 in range(i+1,A.shape[1]):
+                sumk2[i] += A[i,j2]*x[j2]
             
-            xn[i] = (1-w)*x[i]
-            sum1 = 0
-            sum2 = 0
-            for j in range(1,i):
-                sum1 += A[i,j]*x[j]
-                for k in range(i+1,n):
-                    sum2 += A[i,k]*x[k]
-                    xn[i] += (w/A[i,i])*(b[i]-sum1-sum2)
+            u[i] = (1-w)*x[i] + (w/A[i,i])*(b[i]-sumk1[i]-sumk2[i])
         
-        x = xn
+        x = u.copy()
         
-        err = norma(b - np.dot(A,x))
+        residuo = np.max(np.abs(np.dot(A,x) - b))
+        
         it += 1
     
-    return x    
+    return x,it, residuo
+
+A1 = np.array([[3,-1,-1],[-1.,3.,1.],[2,1,4]])
+b1 = np.array([1.,3.,7.])
+
+x0 = np.array([0.,0.,0.])
+
+print(SOR(A1,b1,x0,1.5))
 
 i = sym.I
 
@@ -108,6 +124,6 @@ M = sym.diag(*ed)
 
 I4 = sym.eye(4)
 
-print(2*M*I4)
+#print(2*M*I4)
 
 #anticonit() 
