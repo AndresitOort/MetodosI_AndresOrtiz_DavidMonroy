@@ -72,7 +72,7 @@ def SOR(A,b,x0,w,tol=1e-6,itmax=1000):
             for j2 in range(i+1,A.shape[0]):
                 sumk2[i] += A[i,j2]*x[j2]
             
-            u[i] = (1-w)*x[i] + (w/A[i,i])*(b[i]-sumk1[i]-sumk2[i])
+            u[i] = round((1-w)*x[i] + (w/A[i,i])*(b[i]-sumk1[i]-sumk2[i]),6)
         
         x = u.copy()
         
