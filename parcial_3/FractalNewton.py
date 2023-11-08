@@ -4,7 +4,7 @@ import sympy as sym
 
 x = sym.Symbol('x',real=True)
 y = sym.Symbol('y',real=True)
-
+#
 def f(x,y):
     
     z = x + sym.I*y
@@ -47,7 +47,7 @@ def NewtonRaphsonI(z,Fn,Jn,itmax=100,precision=1e-7):
         
     return z
 
-def GetFractal(Fn,Jn,N=1000):
+def GetFractal(Fn,Jn,N=500):
 
     x=np.linspace(-1,1,N)
     y=np.linspace(-1,1,N)
