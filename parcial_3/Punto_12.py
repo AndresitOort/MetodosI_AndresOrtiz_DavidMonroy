@@ -15,60 +15,52 @@ def GetF(F,r):
     n = r.shape[0]
     
     v = np.zeros_like(r)
-    
-    for i in range(n):
-        v[i] = F[i](r[0],r[1],r[2])
-        
+
+    if len(F) == 3:
+
+        for i in range(n):
+            v[i] = F[i](r[0],r[1],r[2])
+    else:   
+
+        for i in range(n):
+            v[i] = F[i](r[0],r[1])
+            
     return v
 
-def GetG(G,r):
-    
-    n = r.shape[0]
-    
-    v = np.zeros_like(r)
-    
-    for i in range(n):
-        v[i] = G[i](r[0],r[1])
-        
-    return v
-
-def JF(F,r,h=1e-6):
+def J(F,r,h=1e-6):
 
     n = r.shape[0]
     J= np.zeros((n,n))
+    
+    if len(F) == 3:
 
-    for i in range(n):
-        for j in range(n):
+        for i in range(n):
+            for j in range(n):
 
-            rf= r.copy()
-            rb= r.copy()
+                rf= r.copy()
+                rb= r.copy()
 
-            rf[j] = rf[j]+h
-            rb[j] = rb[j]-h
+                rf[j] = rf[j]+h
+                rb[j] = rb[j]-h
 
-            J[i,j] = (F[i](rf[0],rf[1],rf[2]) - F[i](rb[0],rb[1],rb[2]))/(2*h)
+                J[i,j] = (F[i](rf[0],rf[1],rf[2]) - F[i](rb[0],rb[1],rb[2]))/(2*h)
+    
+    else: 
 
-    return J
+        for i in range(n):
+            for j in range(n):
 
-def JG(G,r,h=1e-6):
+                rf= r.copy()
+                rb= r.copy()
 
-    n = r.shape[0]
-    J= np.zeros((n,n))
+                rf[j] = rf[j]+h
+                rb[j] = rb[j]-h
 
-    for i in range(n):
-        for j in range(n):
-
-            rf= r.copy()
-            rb= r.copy()
-
-            rf[j] = rf[j]+h
-            rb[j] = rb[j]-h
-
-            J[i,j] = (G[i](rf[0],rf[1]) - G[i](rb[0],rb[1]))/(2*h)
+                J[i,j] = (F[i](rf[0],rf[1]) - F[i](rb[0],rb[1]))/(2*h)
 
     return J
 
-def NewtonRaphsonF(F,r,itmax=100,precision=1e-7):
+def NewtonRaphson(F,r,itmax=100,precision=1e-7):
     
     error = 1
     it = 0
@@ -78,29 +70,7 @@ def NewtonRaphsonF(F,r,itmax=100,precision=1e-7):
         rc= r 
 
         Fn = GetF(F,rc)
-        Jn= JF(F,rc)
-        Jinv = np.linalg.inv(Jn)
-
-        r1 = rc - np.dot(Jinv,Fn)
-        
-        error = np.max( np.abs(r1-rc) )
-        
-        rc = r1
-        it +=1
-        
-    return rc
-
-def NewtonRaphsonG(G,r,itmax=100,precision=1e-7):
-    
-    error = 1
-    it = 0
-    
-    while error > precision and it < itmax:
-        
-        rc= r 
-
-        Fn = GetG(G,rc)
-        Jn= JG(G,rc)
+        Jn= J(F,rc)
         Jinv = np.linalg.inv(Jn)
 
         r1 = rc - np.dot(Jinv,Fn)
@@ -115,7 +85,6 @@ def NewtonRaphsonG(G,r,itmax=100,precision=1e-7):
 r0= np.array([0.,0.,0.])
 r1= np.array([2.,2.])
 
-A= NewtonRaphsonF(F,r0)
-B= NewtonRaphsonG(G,r1)
-
+A= NewtonRaphson(F,r0)
+B= NewtonRaphson(G,r1)
 print(A,B)
