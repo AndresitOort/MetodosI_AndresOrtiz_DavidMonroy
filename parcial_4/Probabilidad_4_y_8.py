@@ -18,7 +18,7 @@ def probBirthday(n):
     plt.scatter(N,problist)
     plt.show()
 
-    return #problist[-1]
+    return problist[-1]
 
 print(probBirthday(80))
 
