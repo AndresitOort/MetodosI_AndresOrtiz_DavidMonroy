@@ -27,6 +27,8 @@ def Ortonormal(Vectors):
 
     return Vectors
 
+# Distancia Mínima
+
 def SolOrtogonal(u1,u2,u3,bs):
     
     gen= np.array([u1,u2,u3])
