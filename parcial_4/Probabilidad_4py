@@ -22,5 +22,4 @@ def probBirthday(n):
 
 print(probBirthday(80))
 
-#Punto 8
 
