@@ -35,4 +35,75 @@ pi=[2,3,4]
 
 volumen = spo.minimize(V,pi,constraints=area)
 
-print("El máximo volumen para una caja con área lateral de 12cm es: {0} cm^3".format(round(abs(volumen.fun))))
+#print("El máximo volumen para una caja con área lateral de 12cm es: {0} cm^3".format(round(abs(volumen.fun))))
+
+#Por multiplicadores de lagrange:
+
+Lag= np.array([lambda x,y,z,p: y*z - p*y - p*2*z, 
+               lambda x,y,z,p: x*z - p*x - p*2*z, 
+               lambda x,y,z,p: x*y - p*2*x+p*2*y,
+               lambda x,y,z,p: p*0+x*y+2*x*z+2*y*z-12])
+
+def GetF(Lag,r):
+    
+    n = r.shape[0]
+    
+    v = np.zeros_like(r)
+    
+    for i in range(n):
+        v[i] = Lag[i](r[0],r[1],r[2],r[3])
+        
+    return v
+
+def GetJacobian(f,r,h=1e-6):
+    
+    n = r.shape[0]
+    
+    J = np.zeros((n,n))
+    
+    for i in range(n):
+        for j in range(n):
+            
+            rf = r.copy()
+            rb = r.copy()
+            
+            rf[j] = rf[j] + h
+            rb[j] = rb[j] - h
+            
+            J[i,j] = ( f[i](rf[0],rf[1],rf[2],rf[3]) - f[i](rb[0],rb[1],rb[2],rb[3])  )/(2*h)
+            
+    
+    return J
+
+def NewtonRaphson(G,r,itmax=1000,error=1e-9):
+    
+    it = 0
+    d = 1.
+    dvector = []
+    
+    while d > error and it < itmax:
+        
+        # Vector actual
+        rc = r
+        
+        F = GetF(G,rc)
+        J = GetJacobian(G,rc)
+        InvJ = np.linalg.inv(J)
+        
+        r = rc - np.dot(InvJ,F)
+        
+        diff = r - rc
+        
+        d = np.max( np.abs(diff) )
+        
+        dvector.append(d)
+        print(dvector)
+        
+        it += 1
+    
+    print(it)
+    return r,dvector
+
+v = GetF(Lag,np.array([1,1,1,1]))
+d= GetJacobian (Lag,np.array([1,1,1,1]))
+print(d)
